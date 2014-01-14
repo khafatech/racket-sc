@@ -8,10 +8,10 @@ Using the new interface to SuperCollider, students will have easier access to so
 Also, I may develop some labs using the SuperCollider interface.
 
 Different parts of racket-sc:
-•	interface with racket (How it will look to CSC123 students)
-•	interface with SC
-•	documentation of the interface to racket and usage instructions
-•	code as an extension of rsound
+-	interface with racket (How it will look to CSC123 students)
+-	interface with SC
+-	documentation of the interface to racket and usage instructions
+- code as an extension of rsound
 
 
 ## Winter Quarter 2014
