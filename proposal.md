@@ -5,29 +5,24 @@ I'm planning on writing a client for the SuperCollider (SC) music synthesis serv
 Currently students in CSC123 use Racket (programming language and environment) and libraries (rsound) to create sounds using basic signal processing operations, but they can't easily use more advanced features.
 Using the new interface to SuperCollider, students will have easier access to sophisticated real-time synthesis techniques.
  
-Also, I may develop some labs using the SuperCollider interface.
+Also, I will develop some labs using the SuperCollider interface.
 
-Different parts of racket-sc:
--	interface with racket (How it will look to CSC123 students)
--	interface with SC
--	documentation of the interface to racket and usage instructions
-- code as an extension of rsound
 
 
 ## Winter Quarter 2014
-- Weeks 1: Read references (SuperCollider manuals and book) and get more familiar with SuperCollider and existing alternative clients (overtone)
-- 2, 3: See how Overtone interacts with SC and explore the feasibility of porting some of overtone to Racket
-- 4, 5: Begin a prototype in racket that implements few features of the full interface
-- 6: Create specification and documentation of the interface with racket and SC
-- 7: Devise methods and automated tests to test various functionalities
-- 8-10: Implement some of the new specified elements
- 
+
+Features
+
+- Week 2: Implement starting the server from Racket
+- Week 3-4: Generate SynthDef files and send them to the server. (SynthDefs specify networked Unit Generators)
+- Week 5: Controling and sending messages to nodes (Unit Generators, synths)
+- Week 6-10: Implement more features of the full SC interface (control flow, sequencing)
+
 ## Spring Quarter 2014
-Weeks:
-- 1, 2: Based on the first cycle, revise specification and design choices
--	3, 4: Create few labs or assignments that involve the SC interface
--	5, 6, 7: Complete implementation and testing of project
--	8: Revise documentation
--	9: complete project and submit to senior project advisor for review.
+
+-	Week 1, 2: Create few labs or assignments that involve the SC interface
+-	Week 3-4: Test cross-platform compatibility
+-	Week 5: Revise documentation
+-	Week 6-9: complete project and submit to senior project advisor for review.
 -	10: submit final copy to senior project advisor.
 
