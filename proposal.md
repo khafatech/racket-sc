@@ -7,8 +7,6 @@ I'm planning on writing a client for the SuperCollider (SC) music synthesis serv
 
 ### Winter Quarter 2014
 
-Features
-
 - Week 2: Implement starting the server from Racket
 - Week 3-4: Generate SynthDef files and send them to the server. (SynthDefs specify networked Unit Generators)
 - Week 5: Controling and sending messages to nodes (Unit Generators, synths)
@@ -20,5 +18,5 @@ Features
 -	Week 3-4: Test cross-platform compatibility
 -	Week 5: Revise documentation
 -	Week 6-9: complete project and submit to senior project advisor for review.
--	10: submit final copy to senior project advisor.
+-	Week 10: submit final copy to senior project advisor.
 
