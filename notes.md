@@ -1,5 +1,4 @@
 
-
 ## TODO
 
 - get more familiar with Racket
@@ -18,17 +17,22 @@
 
 
 
-### Setup
+### Installation/setup
+
+#### Ubuntu 12.10
 
 
-Used supercollider ppa for ubuntu 12.10
+Used [supercollider 3.6.6 ppa](https://launchpad.net/~supercollider/+archive/ppa) for ubuntu 12.10
 
 Jackd needs to use the alsa driver, no real time, no mem lock, Audio: Playback Only.
 
 
-### Starting
+
+#### Starting
 
 start jackd using qjackctl.
+
+
 
 
 ## Programs
