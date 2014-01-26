@@ -14,9 +14,6 @@
 ## SuperCollider stuff
 
 
-
-
-
 ### Installation/setup
 
 #### Ubuntu 12.10
@@ -35,7 +32,7 @@ start jackd using qjackctl.
 
 
 
-## Programs
+### Programs
 
 { [SinOsc.ar(440, 0, 0.2), SinOsc.ar(442, 0, 0.2)] }.play;
 
@@ -45,6 +42,19 @@ start jackd using qjackctl.
 f = { arg a; a.value + 3 };    // call 'value' on the arg; polymorphism awaits!
 f.value(3);            // 3.value = 3, so this returns 3 + 3 = 6
 g = { 3.0.rand; };
+
+
+
+### Server Architecture
+
+
+Question: What's the relationship between nodes, groups, synthdefs, and ugens?
+
+* a synthdefs is the "class", or blueprint to create a synth (objects), which contains ugens, generates sounds.
+
+* synths and groups are both nodes.
+
+
 
 
 
@@ -73,7 +83,7 @@ Rutz, H. H. (2010). "Rethinking the SuperCollider Client...". Proceedings of Sup
 * OSC Command Reference
 http://doc.sccode.org/Reference/Server-Command-Reference.html
 
-* Server
+* Server Architecture
 http://doc.sccode.org/Reference/Server-Architecture.html
 
 * SynthDef specs
