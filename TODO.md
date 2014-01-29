@@ -1,6 +1,16 @@
 
 
 
+
+## Play sound
+
+* find a synthdef binary
+
+Questions
+- How could I write a synthdef to a file?
+	* use writeDefFile, an instance method of a SynthDef
+
+
 ## Generate SynthDef files and send them to the server. (SynthDefs specify networked Unit Generators)
 
 Need to:
