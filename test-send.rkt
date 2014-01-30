@@ -40,7 +40,9 @@
 ; create a synth
 ; server loads synthdefs in synthdefs/ 
 ; (send-command (osc-message #"/d_load" '(#"basic_sin.scsyndef"))
+; parameters are: 1000: synth-id, 1: append , 0: root-node-id
 (send-command (osc-message #"s_new" '(#"basic_sin" 1000 1 0 )))
+; parameters: 1000: synth-id, 1: on
 (send-command (osc-message #"n_run" '(1000 1)))
 
 ; delete node
