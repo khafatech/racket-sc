@@ -89,6 +89,20 @@
                                   parent-node)))
   (synth node-id))
 
+(define (synth-play s)
+  (send-osc-message #"n_run" (list (synth-node-id s) 1)))
+
+(define (synth-stop s)
+  (send-osc-message #"n_run" (list (synth-node-id s) 0)))
+
+;; synth, [(#"arg1" val1) (#"arg2" val2) ...] -> void
+(define (synth-set-params s args)
+  (send-osc-message #"n_set" (append (synth-node-id s) (flatten args))))
+
+(define (synth-delete s)
+  (send-osc-message #"n_free" (list (synth-node-id s))))
+  
+
 #|
 ;; example usage:
 
