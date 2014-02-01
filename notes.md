@@ -72,7 +72,7 @@ a.set(\freq,330) //change frequency!
 
 Question: What's the relationship between nodes, groups, synthdefs, and ugens?
 
-* a synthdefs is the "class", or blueprint to create a synth (objects), which contains ugens, generates sounds.
+* a synthdef is the "class", or blueprint to create a synth (objects), which contains ugens, generates sounds.
 
 * synths and groups are both nodes.
 

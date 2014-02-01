@@ -1,5 +1,23 @@
 
 
+## Interface
+
+
+### Initial functions
+* send-synthdef: byte-string -> void
+* instantiate a synth: "string", [(arg val) ...] -> synth-obj
+* synth funcs:
+	- synth-play
+	- synth-stop
+	- synth-run: bool -> void
+	- synth-param [("arg" val) ...]
+
+
+## Ideas
+
+- use global control busses to control synths (/n_map and /mapn)
+
+
 
 
 ## Play sound
@@ -9,8 +27,9 @@
 Questions
 - How could I write a synthdef to a file?
 	* use writeDefFile, an instance method of a SynthDef
+	* created basic_sin.scsyndef
 
-
+	 
 ## Generate SynthDef files and send them to the server. (SynthDefs specify networked Unit Generators)
 
 Need to:
