@@ -56,12 +56,48 @@
          (send-osc-message #"/d_recv" '(bytes))]
         [else (error 'send-synthdef "expected bytes")]))
 
-(define (load-synthdef filename)
-  (define filename-bytes (cond [(bytes? filename) filename]
-                               [(string? filename) (string->bytes/utf-8 filename)]
-                               [else (error "filename should be bytes")]))
-  (send-osc-message #"/d_load" '(filename-bytes)))
+(define (string/bytes->bytes thing)
+  (cond [(bytes? thing) thing]
+        [(string? thing) (string->bytes/utf-8 thing)]
+        [else (error "be convertable to bytes")]))
 
+(define (load-synthdef filename)
+  (send-osc-message #"/d_load" (list (string/bytes->bytes filename))))
+
+(define (get-status)
+  (send-osc-message #"/status"))
+
+
+(define current-node-id 1000)
+(define (gen-node-id)
+  (set! current-node-id (add1 current-node-id))
+  current-node-id)
+
+;; represents a synth object/node on the server
+;; TODO - add parameters?
+;; construct from a macro like overtone?
+(struct synth (node-id))
+
+;; TODO - process args
+(define (synth-new name [args '()])
+  (define node-id (gen-node-id))
+  (let ([action 1] ; add to tail
+        [parent-node 0])
+  (send-osc-message #"s_new" (list (string/bytes->bytes name)
+                                  node-id
+                                  action
+                                  parent-node)))
+  (synth node-id))
+
+#|
+;; example usage:
+
+(define my-sin (synth-new "basic_sin"))
+
+(synth-node-id my-sin)
+
+
+|#
 
 #|
 ;; Send commands
