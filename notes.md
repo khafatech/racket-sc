@@ -78,6 +78,8 @@ Question: What's the relationship between nodes, groups, synthdefs, and ugens?
 
 
 
+* On Linux, synthdefs loaded/saved by server are stored in `~/.local/share/SuperCollider/synthdefs/`
+
 
 
 

@@ -5,7 +5,7 @@
 
 ;; to start SC server: scsynth -u 9000
 ;; for debugging, start `dumpOSC 9000`
-(define server-port 9000)
+(define server-port 57110)
 (define the-socket (udp-open-socket))
 
 (define (start-server)
@@ -49,12 +49,13 @@
 ;; show osc messages in server's terminal
 (send-osc-message  #"/dumpOSC" '(1))
 
+(define (bytes->osc-blob bytes)
+  (list 'blob bytes))
+
 ;; byte-string -> void
 ;; TODO - put contract-out
-(define (send-synthdef bytes)
-  (cond [(bytes? bytes)
-         (send-osc-message #"/d_recv" '(bytes))]
-        [else (error 'send-synthdef "expected bytes")]))
+(define (send-synthdef filename)
+         (send-osc-message #"/d_recv" (list (bytes->osc-blob (file->bytes filename)))))
 
 (define (string/bytes->bytes thing)
   (cond [(bytes? thing) thing]
@@ -106,10 +107,25 @@
 #|
 ;; example usage:
 
+(send-synthdef "basic_sin.scsyndef")
+
+;; synth should start playing after this
 (define my-sin (synth-new "basic_sin"))
 
-(synth-node-id my-sin)
+;; get node id
+; (synth-node-id my-sin)
 
+;; stop playing
+(synth-stop my-sin)
+
+;; start playing
+(synth-play my-sin)
+
+;; change freq
+(synth-set-params my-sin (list #"freq" 500))
+
+;; delete synth object (stops sound)
+(synth-delete my-sin)
 
 |#
 
