@@ -104,16 +104,22 @@
   (send-osc-message #"n_free" (list (synth-node-id s))))
   
 
-#|
 ;; example usage:
 
+(display "press enter to make sound")
+(read-line)
+
 (send-synthdef "basic_sin.scsyndef")
+;; should wait for /done message
+(sleep 0.5)
 
 ;; synth should start playing after this
 (define my-sin (synth-new "basic_sin"))
 
 ;; get node id
 ; (synth-node-id my-sin)
+
+(read-line)
 
 ;; stop playing
 (synth-stop my-sin)
@@ -125,23 +131,12 @@
 (synth-set-params my-sin (list #"freq" 500))
 
 ;; delete synth object (stops sound)
-(synth-delete my-sin)
+;; (synth-delete my-sin)
 
-|#
+(synth-set-params my-sin (list #"freq" 500))
 
-#|
-;; Send commands
-; (send-command (osc-message #"" '(   )))
-(send-command (osc-message #"/dumpOSC" '(1)))
-(send-command (osc-message #"/status" '()))
+;; play a scale
+#;(for [(x (range 12))]
+    (begin (synth-set-params my-sin (list #"freq" (* 220 (expt 2 (/ x 6)))))
+           (sleep 0.2)))
 
-; create a synth
-; server loads synthdefs in synthdefs/ 
-; (send-command (osc-message #"/d_load" '(#"basic_sin.scsyndef"))
-(send-command (osc-message #"s_new" '(#"basic_sin" 1000 1 0 )))
-(send-command (osc-message #"n_run" '(1000 1)))
-
-; delete node
-; (send-command (osc-message #"/n_free" '(1000)))
-
-|#
