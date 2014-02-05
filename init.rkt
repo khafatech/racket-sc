@@ -2,6 +2,7 @@
 
 (require osc)
 
+(provide (all-defined-out))
 
 ;; to start SC server: scsynth -u 9000
 ;; for debugging, start `dumpOSC 9000`
@@ -46,8 +47,6 @@
 (define (send-osc-message addr [args '()])
   (send-command (osc-message addr args)))
 
-;; show osc messages in server's terminal
-(send-osc-message  #"/dumpOSC" '(1))
 
 (define (bytes->osc-blob bytes)
   (list 'blob bytes))
@@ -102,41 +101,12 @@
 
 (define (synth-delete s)
   (send-osc-message #"n_free" (list (synth-node-id s))))
+
+(define (reset)
+  ;; remove group 0
+  (send-osc-message  #"/g_freeAll" '(0))
+  (send-osc-message  #"/clearSched"))
+  
   
 
-;; example usage:
-
-(display "press enter to make sound")
-(read-line)
-
-(send-synthdef "basic_sin.scsyndef")
-;; should wait for /done message
-(sleep 0.5)
-
-;; synth should start playing after this
-(define my-sin (synth-new "basic_sin"))
-
-;; get node id
-; (synth-node-id my-sin)
-
-(read-line)
-
-;; stop playing
-(synth-stop my-sin)
-
-;; start playing
-(synth-play my-sin)
-
-;; change freq
-(synth-set-params my-sin (list #"freq" 500))
-
-;; delete synth object (stops sound)
-;; (synth-delete my-sin)
-
-(synth-set-params my-sin (list #"freq" 500))
-
-;; play a scale
-#;(for [(x (range 12))]
-    (begin (synth-set-params my-sin (list #"freq" (* 220 (expt 2 (/ x 6)))))
-           (sleep 0.2)))
 
