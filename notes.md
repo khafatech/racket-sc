@@ -24,12 +24,45 @@ Used [supercollider 3.6.6 ppa](https://launchpad.net/~supercollider/+archive/ppa
 Jackd needs to use the alsa driver, no real time, no mem lock, Audio: Playback Only.
 
 
+* To setup PulseAudio to use jack instead of Alasa: (so other sounds will play besides jack sounds)
+	`http://trac.jackaudio.org/wiki/WalkThrough/User/PulseOnJack`
+
+1. Redirect alsa to PulseAudio, put in `~/.asoundrc`:
+
+		pcm.pulse {
+			type pulse
+		}
+
+		ctl.pulse {
+			type pulse
+		}
+
+		pcm.!default {
+			type pulse
+		}
+		ctl.!default {
+			type pulse
+		}
+2. apt-get install pulseaudio-module-jack
+
+3. put in `~/.pulse/default.pa`:
+
+		load-module module-native-protocol-unix
+		load-module module-jack-sink channels=2
+		load-module module-jack-source channels=2
+		load-module module-null-sink
+		load-module module-stream-restore
+		load-module module-rescue-streams
+		load-module module-always-sink
+		load-module module-suspend-on-idle
+		set-default-sink jack_out
+		set-default-source jack_in
 
 #### Starting
 
 start jackd using qjackctl.
 
-
+Important note: If starting `scsynth`, need to use `qjackctl` to connect SuperCollider->out_1 to the system output using the Connect button.
 
 
 ### Programs
@@ -83,7 +116,7 @@ Question: What's the relationship between nodes, groups, synthdefs, and ugens?
 
 
 
-### Alternative clients
+## Alternative clients
 
 
 * SC Clients
@@ -104,8 +137,42 @@ Rutz, H. H. (2010). "Rethinking the SuperCollider Client...". Proceedings of Sup
 - code defines syntdef format: `src/overtone/sc/machinery/synthdef.clj`
 
 
+### RSC3 (Scheme)
 
-### References
+#### Installing on Ubuntu 12.10
+
+
+* Instructions from http://rd.slavepianos.org/ut/rsc3-texts/lss/rsc3-tutorial.html plus a little detective work.
+
+- install darcs: `aptitude install darcs`
+- "clone" the repos listed in http://rd.slavepianos.org/ut/rsc3-texts/lss/rsc3-tutorial.html
+
+- install Ikarus (a scheme implementation) to compile the libraries.
+	* `apt-get install ikarus`
+
+	* Set the lib path. Put in ~/.bashrc
+		IKARUS_LIBRARY_PATH=~/opt/lib/r6rs/
+		export IKARUS_LIBRARY_PATH
+
+- go to each of the 4 repos' mk dir and do `make prefix=~/opt`
+
+
+- now `~/opt/lib/r6rs/` should look like:
+		$ ls ~/opt/lib/r6rs/
+		mk-r6rs.sls  rsc3.ikarus.sls    sosc.ikarus.sls
+		rhs.sls      rsc3.mzscheme.sls  sosc.mzscheme.sls
+
+
+- install libs into PLT scheme:
+	
+		$ plt-r6rs --install ~/opt/lib/r6rs/rhs.sls
+		$ plt-r6rs --install ~/opt/lib/r6rs/sosc.mzscheme.sls
+		$ plt-r6rs --install ~/opt/lib/r6rs/rsc3.mzscheme.sls
+
+
+
+
+## References
 
 
 * OSC Command Reference
@@ -122,10 +189,6 @@ http://supercollider.github.io/community/blogs-and-sites.html
 
 
 
-
-### Bugs
-
-slang can't connect to server.
 
 
 
