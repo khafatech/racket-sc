@@ -67,7 +67,7 @@ Important note: If starting `scsynth`, need to use `qjackctl` to connect SuperCo
 
 ### Programs
 
-{ [SinOsc.ar(440, 0, 0.2), SinOsc.ar(442, 0, 0.2)] }.play;
+    { [SinOsc.ar(440, 0, 0.2), SinOsc.ar(442, 0, 0.2)] }.play;
 
 
 // example of a function with args
@@ -186,6 +186,143 @@ http://doc.sccode.org/Reference/Synth-Definition-File-Format.html
 
 * Blogs about SC
 http://supercollider.github.io/community/blogs-and-sites.html
+
+
+## Porting rsc3
+
+### rhs
+
+things to change:
+
+* nil -> null
+
+* `(define-record-type duple (fields p q))` to
+
+	`(struct duple (p q))`
+
+* `orX`, `andX` to or, and
+
+* `otherwise` to `else`
+
+* "Beware that a pair in R6RS corresponds to a mutable pair in racket/base."
+    from docs
+
+
+### Sosc
+
+* **Good examples of using udp/tcp in transport.scm and ip.scm**
+    * e.g. timeout, wait, a new recv
+
+Has the files:
+
+"../src/plt/ip.ss"
+"../src/bytevector.scm"
+"../src/sosc.scm"
+"../src/transport.scm"
+
+### rsc3
+
+Two paths:
+1. either port sosc to Racket
+2. or make rsc3 use Clements's osc package
+
+* funcs used from sosc.scm:
+	- message
+	- encode-*
+	- bundle
+
+* How I found these (what rsc3.scm uses from sosc.scm)
+    
+        $ grep 'define' sosc.scm | awk '{print $2}' > funcs-in-sosc.txt
+        $ for func in `cat funcs-in-sosc.txt`;
+            do grep $func ../../rsc3/src/rsc3.scm;
+          done
+		
+
+
+* transport.scm uses `encode-osc`
+
+
+* funcs used from 
+
+* Required libraries:
+	- `bytevector-*` needs `(require rnrs/bytevectors-6)`
+	
+	`(require srfi/27)`
+
+* adding import prefixes: e.g: `(require (prefix-in osc: osc))`
+
+
+#### TODO
+
+- port ip.scm
+    - add prefixes
+    - try
+
+
+### Errors
+
+> (define msg  (message "/hi" (list 1 2)))
+> msg
+(mcons "/hi" (mcons 1 (mcons 2 '())))
+> (encode-osc msg)
+
+		 car: contract violation
+		  expected: pair?
+		  given: (mcons 1 (mcons 2 '()))
+
+Doesn't show where the error is.
+
+
+### Creating a package
+
+
+Two main references:
+
+* file:///home/pack/racket/doc/pkg/getting-started.html?q=package&q=creating%20package&q=packages&q=developing%20packages&q=package#%28part._how-to-create%29
+
+* file:///home/pack/racket/doc/pkg/Package_Concepts.html?q=package&q=creating%20package&q=packages&q=developing%20packages&q=package#%28tech._package._catalog%29
+
+
+git://github.com/‹user›/‹repo›
+git://github.com/quakehead/rsc3
+
+
+## Testing
+
+* Simple expression testing
+
+	(require rackunit)
+	(check-equal? (+ 1 1) 2)
+
+* Grouping expressions. From "The Philosophy of RackUnit"
+	
+	(test-begin
+	  (setup-some-state!)
+	  (check-equal? (foo! 1) 'expected-value-1)
+	  (check-equal? (foo! 2) 'expected-value-2))
+	
+	or
+	
+	(test-case
+		"name"
+		... same as test-begin)
+
+	
+
+### functions in sosc collection
+
+- encode-osc is equivalent to osc-element->bytes
+
+	- call stack:
+	
+	encode-osc
+		encode-message m
+			encode-string
+			encode-types
+			encode-value
+
+
 
 
 
